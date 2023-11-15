@@ -249,7 +249,7 @@ class Restful_Action extends Typecho_Widget implements Widget_Interface_Do
     }
 
     /**
-     * 主题配置项
+     * 友情链接
      * 
      * @return void
      */
@@ -257,13 +257,8 @@ class Restful_Action extends Typecho_Widget implements Widget_Interface_Do
     {
         $this->lockMethod('get');
         $this->checkState('links');
-        $query = $this->db->select()->from('table.options')->where(' name = ?', 'theme:listen-vue');
+        $query = $this->db->select()->from('table.links');
         $results = $this->db->fetchAll($query);
-    
-        // 遍历结果，反序列化 'value' 字段的数据
-        foreach ($results as &$result) {
-            $result['value'] = unserialize($result['value']);
-        }
 
         $this->throwData($results);
     }
