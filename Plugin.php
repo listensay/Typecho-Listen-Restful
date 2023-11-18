@@ -5,10 +5,10 @@ if (!defined('__TYPECHO_ROOT_DIR__')) {
 /**
  * Typecho Restful 插件
  *
- * @package Restful
- * @author MoeFront Studio
+ * @package Listen Restful
+ * @author MoeFront Studio AND listensay
  * @version 1.2.0
- * @link https://moefront.github.io
+ * @link https://github.com/listensay/Typecho-Listen-Restful
  */
 class Restful_Plugin implements Typecho_Plugin_Interface
 {

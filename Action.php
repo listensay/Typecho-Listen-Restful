@@ -888,8 +888,8 @@ class Restful_Action extends Typecho_Widget implements Widget_Interface_Do
         $localPluginContent = file_get_contents($localPluginPath);
         $localActionContent = file_get_contents($localActionPath);
 
-        $remotePluginContent = file_get_contents('https://raw.githubusercontent.com/moefront/typecho-plugin-Restful/master/Plugin.php');
-        $remoteActionContent = file_get_contents('https://raw.githubusercontent.com/moefront/typecho-plugin-Restful/master/Action.php');
+        $remotePluginContent = file_get_contents('https://raw.githubusercontent.com/listensay/Typecho-Listen-Restful/main/Plugin.php');
+        $remoteActionContent = file_get_contents('https://raw.githubusercontent.com/listensay/Typecho-Listen-Restful/main/Action.php');
 
         if (!$remotePluginContent || !$remoteActionContent) {
             $this->throwError('unable to connect to GitHub');
