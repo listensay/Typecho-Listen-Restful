@@ -8,5 +8,5 @@ Listen Result API插件
 
 | name | url | desc |
 | ----------- | ----------- |----------- |
-| thmeOption | api/thmeOption | 主题设置 |
+| website | api/website | 主题设置 |
 | links | api/links | 友情链接 |
