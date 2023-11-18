@@ -232,10 +232,10 @@ class Restful_Action extends Typecho_Widget implements Widget_Interface_Do
      * 
      * @return void
      */
-    public function themeOptionAction()
+    public function websiteAction()
     {
         $this->lockMethod('get');
-        $this->checkState('themeOption');
+        $this->checkState('website');
 
         $query = $this->db->select()->from('table.options')->where(' name = ?', 'theme:listen-vue');
         $results = $this->db->fetchAll($query);
