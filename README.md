@@ -6,7 +6,7 @@ Listen Result API插件
 
 ## 改动
 
-| name | url |
-| ----------- | ----------- |
-| thmeOption | api/thmeOption |
-| links | api/links |
+| name | url | desc |
+| ----------- | ----------- |----------- |
+| thmeOption | api/thmeOption | 主题设置 |
+| links | api/links | 友情链接 |
