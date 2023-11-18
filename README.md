@@ -4,7 +4,7 @@ Listen Result API插件
 
 原作者: https://github.com/moefront/typecho-plugin-Restful
 
-## 改动
+## Listen API
 
 | name | url | desc |
 | ----------- | ----------- |----------- |
