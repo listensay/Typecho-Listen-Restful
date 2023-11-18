@@ -3,7 +3,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) {
     exit;
 }
 /**
- * Typecho Listen Restful 插件
+ * Typecho Listen Restful 插件。
  * 原作： MoeFront Studio 
  *
  * @package Listen Restful
