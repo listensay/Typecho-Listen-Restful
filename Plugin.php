@@ -3,11 +3,12 @@ if (!defined('__TYPECHO_ROOT_DIR__')) {
     exit;
 }
 /**
- * Typecho Restful 插件
+ * Typecho Listen Restful 插件
+ * 原作： MoeFront Studio 
  *
  * @package Listen Restful
- * @author MoeFront Studio AND listensay
- * @version 1.2.0
+ * @author listensay
+ * @version 1.0.0
  * @link https://github.com/listensay/Typecho-Listen-Restful
  */
 class Restful_Plugin implements Typecho_Plugin_Interface
