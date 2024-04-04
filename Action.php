@@ -862,7 +862,7 @@ class Restful_Action extends Typecho_Widget implements Widget_Interface_Do
 
 
     /**
-     * 点赞接口
+     * 文章点赞接口
      * 
      * @return void
      */
@@ -872,7 +872,7 @@ class Restful_Action extends Typecho_Widget implements Widget_Interface_Do
         $this->checkState('like');
 
         $cid = $this->getParams('cid', '');
-        $isPraise = $this->getParams('isPraise');
+        $likeState = $this->getParams('likeState');
 
         if (!empty($cid)) {
             $db = $this->db;
@@ -885,7 +885,7 @@ class Restful_Action extends Typecho_Widget implements Widget_Interface_Do
 
             $row = $db->fetchRow($db->select('likes')->from('table.contents')->where('cid = ?', $cid));
 
-            if ($isPraise == true)
+            if ($likeState == true)
                 $updateRows = $db->query($db->update('table.contents')->rows(array('likes' => (int) $row['likes'] + 1))->where('cid = ?', $cid));
             else
                 $updateRows = $db->query($db->update('table.contents')->rows(array('likes' => (int) $row['likes'] - 1))->where('cid = ?', $cid)->where('likes > 0'));
