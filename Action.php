@@ -321,7 +321,7 @@ class Restful_Action extends Typecho_Widget implements Widget_Interface_Do
         }
 
         $select = $this->db
-            ->select('cid', 'title', 'created', 'modified', 'slug', 'commentsNum', 'text', 'type')
+            ->select('cid', 'title', 'created', 'modified', 'slug', 'commentsNum', 'text', 'type', 'likes')
             ->from('table.contents')
             ->where('type = ?', 'post')
             ->where('status = ?', 'publish')
@@ -448,54 +448,6 @@ class Restful_Action extends Typecho_Widget implements Widget_Interface_Do
         }
 
         $this->throwError('no tag', 404);
-    }
-
-    /**
-     * 点赞接口
-     * 
-     * @return void
-     */
-    public function praiseAction()
-    {
-        $this->lockMethod('post');
-        $this->checkState('like');
-
-        $cid = $this->getParams('cid', '');
-        $isPraise = $this->getParams('isPraise');
-
-        // 判断是否为空
-        if (!empty($cid)) {
-            $db = $this->db;
-
-            // 获取表名
-            $prefix = $db->getPrefix();
-
-            // 判断是否有点赞字段
-            if (!array_key_exists('like', $db->fetchRow($db->select()->from('table.contents')))) {
-                $db->query('ALTER TABLE `' . $prefix . 'contents` ADD `like` INT(30) DEFAULT 0;');
-            }
-
-            //先获取当前赞
-            $row = $db->fetchRow($db->select('like')->from('table.contents')->where('cid = ?', $cid));
-
-            //判断是否点赞
-            if ($isPraise == true)
-                $updateRows = $db->query($db->update('table.contents')->rows(array('like' => (int) $row['like'] + 1))->where('cid = ?', $cid));
-            else
-                $updateRows = $db->query($db->update('table.contents')->rows(array('like' => (int) $row['like'] - 1))->where('cid = ?', $cid)->where('like > 0'));
-
-            // 判断是否成功
-            if ($updateRows) {
-                $state =  "success";
-            } else {
-                $state =  "error";
-            }
-        } else {
-            // 错误
-            $state = 'Illegal request';
-        }
-
-        $this->throwData($state);
     }
 
     /**
@@ -906,6 +858,47 @@ class Restful_Action extends Typecho_Widget implements Widget_Interface_Do
             "count" => count($posts),
             "dataSet" => $archives,
         ));
+    }
+
+
+    /**
+     * 点赞接口
+     * 
+     * @return void
+     */
+    public function likeAction()
+    {
+        $this->lockMethod('post');
+        $this->checkState('like');
+
+        $cid = $this->getParams('cid', '');
+        $isPraise = $this->getParams('isPraise');
+
+        if (!empty($cid)) {
+            $db = $this->db;
+
+            $prefix = $db->getPrefix();
+
+            if (!array_key_exists('likes', $db->fetchRow($db->select()->from('table.contents')))) {
+                $db->query('ALTER TABLE `' . $prefix . 'contents` ADD `likes` INT(30) DEFAULT 0;');
+            }
+
+            $row = $db->fetchRow($db->select('likes')->from('table.contents')->where('cid = ?', $cid));
+
+            if ($isPraise == true)
+                $updateRows = $db->query($db->update('table.contents')->rows(array('likes' => (int) $row['likes'] + 1))->where('cid = ?', $cid));
+            else
+                $updateRows = $db->query($db->update('table.contents')->rows(array('likes' => (int) $row['likes'] - 1))->where('cid = ?', $cid)->where('likes > 0'));
+            if ($updateRows) {
+                $state =  "success";
+            } else {
+                $state =  "error";
+            }
+        } else {
+            $state = 'Illegal request';
+        }
+
+        $this->throwData($state);
     }
 
     /**
