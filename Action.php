@@ -451,6 +451,54 @@ class Restful_Action extends Typecho_Widget implements Widget_Interface_Do
     }
 
     /**
+     * 点赞接口
+     * 
+     * @return void
+     */
+    public function praiseAction()
+    {
+        $this->lockMethod('post');
+        $this->checkState('like');
+
+        $cid = $this->getParams('cid', '');
+        $isPraise = $this->getParams('isPraise');
+
+        // 判断是否为空
+        if (!empty($cid)) {
+            $db = $this->db;
+
+            // 获取表名
+            $prefix = $db->getPrefix();
+
+            // 判断是否有点赞字段
+            if (!array_key_exists('like', $db->fetchRow($db->select()->from('table.contents')))) {
+                $db->query('ALTER TABLE `' . $prefix . 'contents` ADD `like` INT(30) DEFAULT 0;');
+            }
+
+            //先获取当前赞
+            $row = $db->fetchRow($db->select('like')->from('table.contents')->where('cid = ?', $cid));
+
+            //判断是否点赞
+            if ($isPraise == true)
+                $updateRows = $db->query($db->update('table.contents')->rows(array('like' => (int) $row['like'] + 1))->where('cid = ?', $cid));
+            else
+                $updateRows = $db->query($db->update('table.contents')->rows(array('like' => (int) $row['like'] - 1))->where('cid = ?', $cid)->where('like > 0'));
+
+            // 判断是否成功
+            if ($updateRows) {
+                $state =  "success";
+            } else {
+                $state =  "error";
+            }
+        } else {
+            // 错误
+            $state = 'Illegal request';
+        }
+
+        $this->throwData($state);
+    }
+
+    /**
      * 获取文章、独立页面详情的接口
      *
      * @return void
