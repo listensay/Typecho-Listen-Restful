@@ -320,6 +320,13 @@ class Restful_Action extends Typecho_Widget implements Widget_Interface_Do
             }
         }
 
+        // 初始化点赞
+        $db = $this->db;
+        $prefix = $db->getPrefix();
+        if (!array_key_exists('likes', $db->fetchRow($db->select()->from('table.contents')))) {
+            $db->query('ALTER TABLE `' . $prefix . 'contents` ADD `likes` INT(30) DEFAULT 0;');
+        }
+
         $select = $this->db
             ->select('cid', 'title', 'created', 'modified', 'slug', 'commentsNum', 'text', 'type', 'likes')
             ->from('table.contents')
@@ -375,7 +382,6 @@ class Restful_Action extends Typecho_Widget implements Widget_Interface_Do
             'page' => (int) $page,
             'pageSize' => (int) $pageSize,
             'pages' => ceil($count / $pageSize),
-            'count' => $count,
             'dataSet' => $result,
         ));
     }
