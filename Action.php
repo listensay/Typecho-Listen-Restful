@@ -596,6 +596,7 @@ class Restful_Action extends Typecho_Widget implements Widget_Interface_Do
         $slug = $this->getParams('slug', '');
         $cid = $this->getParams('cid', '');
         $token = $this->getParams('token', '');
+        $text = $this->getParams('text', '');
 
         // administrator
         $uid = $this->getParams('uid', null);
@@ -904,7 +905,14 @@ class Restful_Action extends Typecho_Widget implements Widget_Interface_Do
             $state = 'Illegal request';
         }
 
-        $this->throwData($state);
+        // 查询点赞总数量
+        $select = $db->select('likes')->from('table.contents')->where('cid = ?', $cid);
+
+        // 返回点赞总数量
+        $this->throwData(array(
+            'state' => $state,
+            'likes' => $db->fetchRow($select)['likes'],
+        ));
     }
 
     /**
